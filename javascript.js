@@ -7,6 +7,7 @@ let employeesPerPage = parseInt(document.getElementById('page-no').value);
 let paginationList = document.getElementById('list');
 
 // Backend to frontend data fetch
+
 async function fetchData() {
     try {
         const response = await fetch(apiUrl);
@@ -22,7 +23,9 @@ async function fetchData() {
      
     } catch (error) {
         console.error('Error fetching data:', error);
+        
     }
+   
 }
 
 fetchData();
@@ -74,7 +77,7 @@ function addTableShow(page) {
 
 
 
-//------------------------------------------------------------------add employeee popup-------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------add employeee popup--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 function showAddEmployeePopup(){
@@ -82,7 +85,8 @@ function showAddEmployeePopup(){
   let add = document.getElementById('add-employee')
   let overlay = document.getElementById('overlay')
   
-   // Display the popup and overlay
+  
+   //Display the popup and overlay
   add.style.display = "block"
   overlay.style.display = "block"
   
@@ -99,18 +103,17 @@ function showAddEmployeePopup(){
     
   }
 
-  //-----------------------------------------------------------------UPLOADING IMAGE Adding--------------------------------------------------------------------------------------------------
+  //-----------------------------------------------------------------UPLOADING IMAGE Adding-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 let profilePic = document.getElementById('uploadimg');
 let inputFile = document.getElementById('upload');  
-
+validImage = false
 inputFile.onchange = function (){            //any image execute tis function       
-
   profilePic.src = URL.createObjectURL(inputFile.files[0])
-
+validImage = true
 }
 
-  //---------------------------------------------------------------adding-employee------------------------------------------------------------------------------------------------------------
+  //---------------------------------------------------------------adding-employee---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 async function postData() {
 
     const salutation = document.getElementById("salutation-name").value;
@@ -166,22 +169,20 @@ async function postData() {
     const inputFile = document.getElementById('upload');
     const formdata = new FormData();
     formdata.append("avatar", inputFile.files[0]);
-
+   if(validImage){
     const avatarResponse = await fetch(`http://localhost:3000/employees/${respData.id}/avatar`, {
         method: "POST",
         body: formdata,
     });
+   }
 
-    if (!avatarResponse.ok) {
-        throw new Error('Failed to upload avatar for employee');
-    }
     newUser.id =respData.id
     allDatas.unshift(newUser);
 
     addTableShow(currentpage);
     console.log(allDatas);
 } catch (error) {
-    console.error('Error adding employee:', error);
+    console.error('Error adding employee :', error);
 }
 
  }
@@ -199,8 +200,7 @@ document.getElementById('addEmpbtn').addEventListener('click',(e)=>{
         icon: "success",
       });
     resetvalue()
-    
-    
+
   }
  
 
@@ -227,797 +227,7 @@ function resetvalue(){
 
 }
 
-// --------------------------------------------------------validation add-form---------------------------------------------------------------
-// const addFormValidation = () =>{
-
-//     const firstNameVal = document.getElementById("first-name")  
-//     const lastNameVal  = document.getElementById("las-nme") 
-//     const salutationVal  = document.getElementById("salutation-name")
-//     const emailVal = document.getElementById("exampleInputEmail1")
-//     const phoneVal = document.getElementById("typePhone")
-//     const qualificationVal = document.getElementById("qual-nme")
-//     const addressVal = document.getElementById("address")
-//     const dobVal = document.getElementById("date")
-//     const cityVal = document.getElementById("cit-nme")
-//     const stateVal  = document.getElementById("ste-nme")
-//     const countryVal  = document.getElementById("coun-nme")
-//     const  pinVal  = document.getElementById("pin-zip")
-//     const  usernameVal  = document.getElementById("user")
-//     const passwordVal  = document.getElementById("pass")
-//  const maleval = document.getElementById("maleCheckedit")
-//  const femaleval = document.getElementById("femaleradioedit")
- 
-
-
-//     salutationVal.addEventListener('input', () =>{
-//       document.getElementById('salutation-Validate').textContent = ``;
-//       if(salutationVal.value === ``){
-//         document.getElementById('salutation-Validate').textContent = "Select a salutation"
-//       }
-//     })
-  
-//     firstNameVal.addEventListener('input', () =>{
-//       document.getElementById('firstName-Val').textContent = ``;
-//       if(!namePattern.test(firstNameVal.value)){
-//         document.getElementById('firstName-Val').textContent = "Enter valid firstName"
-//       }
-//     })
-  
-//     lastNameVal.addEventListener('input', () =>{
-//       document.getElementById('lastName-Validate').textContent = ``;
-//       if(!namePattern.test(lastNameVal.value)){
-//         document.getElementById('lastName-Validate').textContent = "Enter valid lastName"
-//       }
-//     })
-  
-//     emailVal.addEventListener('input', () =>{
-//       document.getElementById('email-Val').textContent = ``;
-//       if(!emailPattern.test(emailVal.value)){
-//         document.getElementById('email-Val').textContent = "Enter a valid email id"
-//       }
-//     })
-  
-//     phoneVal .addEventListener('input', () =>{
-//       document.getElementById('phone-Val').textContent = ``;
-//       if(!phonePattern.test(phoneVal.value)){
-//         document.getElementById('phone-Val').textContent = "Phone number should be 10 digits"
-//       }
-//     })
-  
-//     qualificationVal.addEventListener('input', () =>{
-//       document.getElementById('qualifications-Validate').textContent = ``;
-//       if(qualificationVal.value === ``){
-//         document.getElementById('qualifications-Validate').textContent = "qualification is Required"
-//       }
-//     })
-  
-//     addressVal.addEventListener('input', () =>{
-//       document.getElementById('address-Validate').textContent = ``;
-//       if(addressVal.value === ``){
-//         document.getElementById('address-Validate').textContent = "address is Required"
-//       }
-//     })
-  
-//     dobVal.addEventListener('input', () =>{
-//       document.getElementById('dobValidate').textContent = ``;
-//       if(dobVal.value === ``){
-//         document.getElementById('dobValidate').textContent = "dob is Required"
-//       }
-//     })
-  
-//     cityVal.addEventListener('input', () =>{
-//       document.getElementById('city-Validate').textContent = ``;
-//       if(cityVal.value === ``){
-//         document.getElementById('city-Validate').textContent = "city is Required"
-//       }
-//     })
-  
-//     stateVal.addEventListener('input', () =>{
-//       document.getElementById('state-Validate').textContent = ``;
-//       if(stateVal.value === ``){
-//         document.getElementById('state-Validate').textContent = "*select a state"
-//       }
-//     })
-  
-//     countryVal.addEventListener('input', () =>{
-//       document.getElementById('country-Validate').textContent = ``;
-//       if(countryVal.value === ``){
-//         document.getElementById('country-Validate').textContent = "*Select a Country"
-//       }
-//     })
-  
-//     pinVal.addEventListener('input', () =>{
-//       document.getElementById('pin-Validate').textContent = ``;
-//       if(pinVal.value === ``){
-//         document.getElementById('pin-Validate').textContent = "*Pin is Required"
-//       }
-//     })
-  
-//     usernameVal.addEventListener('input', () =>{
-//       document.getElementById('username-Validate').textContent = ``;
-//       if(usernameVal.value === ``){
-//         document.getElementById('username-Validate').textContent = "*username is Required"
-//       }
-//     })
-  
-//     document.getElementById("add-employee").addEventListener("input", () => {
-//       if(maleval.checked || femaleval .checked){
-//         genderValidation.textContent = ``
-//       }
-//     })
-  
-  
-//     passwordVal.addEventListener('input', () =>{
-//       document.getElementById('password-Validate').textContent = ``;
-//       if(!passwordPattern.test(passwordVal.value)){
-//         document.getElementById('password-Validate').textContent = "password should contain atleast 8 character with number, symbol, capital and small letters"
-//       }
-      
-//     })
-    
-//     const salutation = salutationVal.value.trim()
-//     const firstName = firstNameVal.value.trim()
-//     const lastName = lastNameVal.value.trim()
-//     const email = emailVal.value.trim()
-//     const phone = phoneVal.value.trim()
-//     const username = usernameVal.value.trim()
-//     const password = passwordVal.value.trim()
-//     const qualification = qualificationVal.value.trim()
-//     const address = addressVal.value.trim()
-//     const country = countryVal.value.trim()
-//     const state = stateVal.value.trim()
-//     const city = cityVal.value.trim()
-//     const pinZip = pinVal.value.trim()
-//     const gender = document.querySelector('input[name="Gender"]:checked')
-//     const dobValue = dobVal.value.trim()
-//     const addDOBValidation = document.getElementById("dobValidate")
-//     const genderValidation = document.getElementById("genderValidate")
-  
-//     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
-//     const phonePattern = /^\d{10}$/
-//     const namePattern = /^[a-zA-Z]+$/
-//     const passwordPattern = new RegExp("(?=.[a-z])" + "(?=.[A-Z])" + "(?=.\\d)" + "(?=.[^a-zA-Z0-9])" + ".{8,}")
-  
-//     let isValid = true
-  
-//     if(gender){
-//       genderValidation.textContent = ``  
-//     }
-//     else{
-//       genderValidation.textContent = "please select a gender"
-//       isValid = false
-//     }
-//     if(dobValue === ``){
-//       addDOBValidation.textContent = "Please select date of birth"
-//       isValid = false
-//     }
-//     if(!phonePattern.test(phone)){
-//       document.getElementById("phone-Val").textContent = "Phone number should be 10 digits"
-//       isValid = false
-//     }
-//     if(!emailPattern.test(email)){
-//       document.getElementById("email-Val").textContent = "Please enter a valid email id"
-//       isValid = false
-//     }
-//     if(!namePattern.test(firstName)){
-//       document.getElementById("firstName-Val").textContent = "Enter valid first name"
-//       isValid = false
-//     }
-//     if(!namePattern.test(lastName)){
-//       document.getElementById("lastName-Validate").textContent = "Enter valid last name"
-//       isValid = false
-//     }
-//     if(!passwordPattern.test(password)){
-//       document.getElementById("password-Validate").textContent = "password should contain atleast 8 character with number, symbol, capital and small letters"
-//       isValid = false
-//     }
-//     if(salutation === ``){
-//       document.getElementById("salutation-Validate").textContent = "Please select a salutation"
-//       isValid = false
-//     }
-//     if(username === ``){
-//       document.getElementById("username-Validate").textContent = "Enter a User name"
-//       isValid = false
-//     }
-//     if(qualification === ``){
-//       document.getElementById("qualifications-Validate").textContent = "Enter qualification"
-//       isValid = false
-//     }
-  
-//     if(address === ``){
-//       document.getElementById("address-Validate").textContent = "Enter address"
-//       isValid = false
-//     }
-//     if(state === ``){
-//       document.getElementById("state-Validate").textContent = "select a state"
-//       isValid = false
-//     }
-//     if(country === ``){
-//       document.getElementById("country-Validate").textContent = "select a country"
-//       isValid = false
-//     }
-//     if(city === ``){
-//       document.getElementById("city-Validate").textContent = "Enter city"
-//       isValid = false
-//     }
-//     if(pinZip === ``){
-//       document.getElementById("pin-Validate").textContent = "Enter Pin / Zip code"
-//       isValid = false
-//     }
-//     return isValid
-  
-// }
-
-
-// const addFormValidation = () => {
-//   const firstNameVal = document.getElementById("first-name");
-//   const lastNameVal = document.getElementById("las-nme");
-//   const salutationVal = document.getElementById("salutation-name");
-//   const emailVal = document.getElementById("exampleInputEmail1");
-//   const phoneVal = document.getElementById("typePhone");
-//   const qualificationVal = document.getElementById("qual-nme");
-//   const addressVal = document.getElementById("address");
-//   const dobVal = document.getElementById("date");
-//   const cityVal = document.getElementById("cit-nme");
-//   const stateVal = document.getElementById("ste-nme");
-//   const countryVal = document.getElementById("coun-nme");
-//   const pinVal = document.getElementById("pin-zip");
-//   const usernameVal = document.getElementById("user");
-//   const passwordVal = document.getElementById("pass");
-//   const maleVal = document.getElementById("maleCheckedit");
-//   const femaleVal = document.getElementById("femaleradioedit");
-
-//   const addValidationListener = (element, validateId, msg) => {
-//       if (element) {
-//           element.addEventListener('input', () => {
-//               const validateElement = document.getElementById(validateId);
-//               if (validateElement) {
-//                   validateElement.textContent = '';
-//                   if (element.value === '') {
-//                       validateElement.textContent = msg;
-//                   }
-//               }
-//           });
-//       }
-//   };
-
-//   addValidationListener(salutationVal, 'salutation-Validate', 'Select a salutation');
-//   addValidationListener(firstNameVal, 'firstName-Val', 'Enter valid firstName');
-//   addValidationListener(lastNameVal, 'lastName-Validate', 'Enter valid lastName');
-//   addValidationListener(emailVal, 'email-Val', 'Enter a valid email id');
-//   addValidationListener(phoneVal, 'phone-Val', 'Phone number should be 10 digits');
-//   addValidationListener(qualificationVal, 'qualifications-Validate', 'Qualification is required');
-//   addValidationListener(addressVal, 'address-Validate', 'Address is required');
-//   addValidationListener(dobVal, 'dobValidate', 'Date of birth is required');
-//   addValidationListener(cityVal, 'city-Validate', 'City is required');
-//   addValidationListener(stateVal, 'state-Validate', 'Select a state');
-//   addValidationListener(countryVal, 'country-Validate', 'Select a country');
-//   addValidationListener(pinVal, 'pin-Validate', 'Pin is required');
-//   addValidationListener(usernameVal, 'username-Validate', 'Username is required');
-//   addValidationListener(passwordVal, 'password-Validate', 'Password should contain at least 8 characters with number, symbol, capital, and small letters');
-
-//   document.getElementById("add-employee").addEventListener("input", () => {
-//       const genderValidation = document.getElementById("genderValidate");
-//       if (genderValidation && (maleVal.checked || femaleVal.checked)) {
-//           genderValidation.textContent = '';
-//       }
-//   });
-
-//   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//   const phonePattern = /^\d{10}$/;
-//   const namePattern = /^[a-zA-Z]+$/;
-//   const passwordPattern = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}");
-
-//   let isValid = true;
-
-//   const gender = document.querySelector('input[name="Gender"]:checked');
-//   const genderValidation = document.getElementById("genderValidate");
-//   const dobValue = dobVal ? dobVal.value.trim() : '';
-//   const addDOBValidation = document.getElementById("dobValidate");
-
-//   const checkAndSetError = (condition, elementId, errorMessage) => {
-//       const element = document.getElementById(elementId);
-//       if (element) {
-//           if (condition) {
-//               element.textContent = errorMessage;
-//               isValid = false;
-//           } else {
-//               element.textContent = '';
-//           }
-//       }
-//   };
-
-//   checkAndSetError(!gender, "genderValidate", "Please select a gender");
-//   checkAndSetError(dobValue === '', "dobValidate", "Please select date of birth");
-//   checkAndSetError(!phonePattern.test(phoneVal.value), "phone-Val", "Phone number should be 10 digits");
-//   checkAndSetError(!emailPattern.test(emailVal.value), "email-Val", "Please enter a valid email id");
-//   checkAndSetError(!namePattern.test(firstNameVal.value), "firstName-Val", "Enter valid first name");
-//   checkAndSetError(!namePattern.test(lastNameVal.value), "lastName-Validate", "Enter valid last name");
-//   checkAndSetError(!passwordPattern.test(passwordVal.value), "password-Validate", "Password should contain at least 8 characters with number, symbol, capital, and small letters");
-//   checkAndSetError(salutationVal.value.trim() === '', "salutation-Validate", "Please select a salutation");
-//   checkAndSetError(usernameVal.value.trim() === '', "username-Validate", "Enter a username");
-//   checkAndSetError(qualificationVal.value.trim() === '', "qualifications-Validate", "Enter qualification");
-//   checkAndSetError(addressVal.value.trim() === '', "address-Validate", "Enter address");
-//   checkAndSetError(stateVal.value.trim() === '', "state-Validate", "Select a state");
-//   checkAndSetError(countryVal.value.trim() === '', "country-Validate", "Select a country");
-//   checkAndSetError(cityVal.value.trim() === '', "city-Validate", "Enter city");
-//   checkAndSetError(pinVal.value.trim() === '', "pin-Validate", "Enter Pin / Zip code");
-
-//   return isValid;
-// };
-
-
-// const addFormValidation = () => {
-//   const firstNameVal = document.getElementById("first-name");
-//   const lastNameVal = document.getElementById("las-nme");
-//   const salutationVal = document.getElementById("salutation-name");
-//   const emailVal = document.getElementById("exampleInputEmail1");
-//   const phoneVal = document.getElementById("typePhone");
-//   const qualificationVal = document.getElementById("qual-nme");
-//   const addressVal = document.getElementById("address");
-//   const dobVal = document.getElementById("date");
-//   const cityVal = document.getElementById("cit-nme");
-//   const stateVal = document.getElementById("ste-nme");
-//   const countryVal = document.getElementById("coun-nme");
-//   const pinVal = document.getElementById("pin-zip");
-//   const usernameVal = document.getElementById("user");
-//   const passwordVal = document.getElementById("pass");
-//   const maleval = document.getElementById("maleCheckedit");
-//   const femaleval = document.getElementById("femaleradioedit");
-
-//   const setValidationMessage = (elementId, message) => {
-//       const element = document.getElementById(elementId);
-//       if (element) {
-//           element.textContent = message;
-//       }
-//   };
-
-//   salutationVal.addEventListener('input', () => {
-//       setValidationMessage('salutation-Validate', '');
-//       if (salutationVal.value === '') {
-//           setValidationMessage('salutation-Validate', 'Select a salutation');
-//       }
-//   });
-
-//   firstNameVal.addEventListener('input', () => {
-//       setValidationMessage('firstName-Val', '');
-//       if (!namePattern.test(firstNameVal.value)) {
-//           setValidationMessage('firstName-Val', 'Enter valid firstName');
-//       }
-//   });
-
-//   lastNameVal.addEventListener('input', () => {
-//       setValidationMessage('lastName-Validate', '');
-//       if (!namePattern.test(lastNameVal.value)) {
-//           setValidationMessage('lastName-Validate', 'Enter valid lastName');
-//       }
-//   });
-
-//   emailVal.addEventListener('input', () => {
-//       setValidationMessage('email-Val', '');
-//       if (!emailPattern.test(emailVal.value)) {
-//           setValidationMessage('email-Val', 'Enter a valid email id');
-//       }
-//   });
-
-//   phoneVal.addEventListener('input', () => {
-//       setValidationMessage('phone-Val', '');
-//       if (!phonePattern.test(phoneVal.value)) {
-//           setValidationMessage('phone-Val', 'Phone number should be 10 digits');
-//       }
-//   });
-
-//   qualificationVal.addEventListener('input', () => {
-//       setValidationMessage('qualifications-Validate', '');
-//       if (qualificationVal.value === '') {
-//           setValidationMessage('qualifications-Validate', 'Qualification is required');
-//       }
-//   });
-
-//   addressVal.addEventListener('input', () => {
-//       setValidationMessage('address-Validate', '');
-//       if (addressVal.value === '') {
-//           setValidationMessage('address-Validate', 'Address is required');
-//       }
-//   });
-
-//   dobVal.addEventListener('input', () => {
-//       setValidationMessage('dobValidate', '');
-//       if (dobVal.value === '') {
-//           setValidationMessage('dobValidate', 'DOB is required');
-//       }
-//   });
-
-//   cityVal.addEventListener('input', () => {
-//       setValidationMessage('city-Validate', '');
-//       if (cityVal.value === '') {
-//           setValidationMessage('city-Validate', 'City is required');
-//       }
-//   });
-
-//   stateVal.addEventListener('input', () => {
-//       setValidationMessage('state-Validate', '');
-//       if (stateVal.value === '') {
-//           setValidationMessage('state-Validate', 'Select a state');
-//       }
-//   });
-
-//   countryVal.addEventListener('input', () => {
-//       setValidationMessage('country-Validate', '');
-//       if (countryVal.value === '') {
-//           setValidationMessage('country-Validate', 'Select a country');
-//       }
-//   });
-
-//   pinVal.addEventListener('input', () => {
-//       setValidationMessage('pin-Validate', '');
-//       if (pinVal.value === '') {
-//           setValidationMessage('pin-Validate', 'Pin is required');
-//       }
-//   });
-
-//   usernameVal.addEventListener('input', () => {
-//       setValidationMessage('username-Validate', '');
-//       if (usernameVal.value === '') {
-//           setValidationMessage('username-Validate', 'Username is required');
-//       }
-//   });
-
-//   document.getElementById("add-employee").addEventListener("input", () => {
-//       const genderValidation = document.getElementById("genderValidate");
-//       if (genderValidation && (maleval.checked || femaleval.checked)) {
-//           genderValidation.textContent = '';
-//       }
-//   });
-
-//   passwordVal.addEventListener('input', () => {
-//       setValidationMessage('password-Validate', '');
-//       if (!passwordPattern.test(passwordVal.value)) {
-//           setValidationMessage('password-Validate', 'Password should contain at least 8 characters with number, symbol, capital, and small letters');
-//       }
-//   });
-
-//   const salutation = salutationVal.value.trim();
-//   const firstName = firstNameVal.value.trim();
-//   const lastName = lastNameVal.value.trim();
-//   const email = emailVal.value.trim();
-//   const phone = phoneVal.value.trim();
-//   const username = usernameVal.value.trim();
-//   const password = passwordVal.value.trim();
-//   const qualification = qualificationVal.value.trim();
-//   const address = addressVal.value.trim();
-//   const country = countryVal.value.trim();
-//   const state = stateVal.value.trim();
-//   const city = cityVal.value.trim();
-//   const pinZip = pinVal.value.trim();
-//   const gender = document.querySelector('input[name="Gender"]:checked');
-//   const dobValue = dobVal.value.trim();
-//   const addDOBValidation = document.getElementById("dobValidate");
-//   const genderValidation = document.getElementById("genderValidate");
-
-//   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//   const phonePattern = /^\d{10}$/;
-//   const namePattern = /^[a-zA-Z]+$/;
-//   const passwordPattern = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}");
-
-//   let isValid = true;
-
-//   if (gender) {
-//       setValidationMessage("genderValidation", '');
-//   } else {
-//       setValidationMessage("genderValidation", 'Please select a gender');
-//       isValid = false;
-//   }
-
-//   if (dobValue === '') {
-//       setValidationMessage("dobValidate", 'Please select date of birth');
-//       isValid = false;
-//   }
-
-//   if (!phonePattern.test(phone)) {
-//       setValidationMessage("phone-Val", 'Phone number should be 10 digits');
-//       isValid = false;
-//   }
-
-//   if (!emailPattern.test(email)) {
-//       setValidationMessage("email-Val", 'Please enter a valid email id');
-//       isValid = false;
-//   }
-
-//   if (!namePattern.test(firstName)) {
-//       setValidationMessage("firstName-Val", 'Enter valid first name');
-//       isValid = false;
-//   }
-
-//   if (!namePattern.test(lastName)) {
-//       setValidationMessage("lastName-Validate", 'Enter valid last name');
-//       isValid = false;
-//   }
-
-//   if (!passwordPattern.test(password)) {
-//       setValidationMessage("password-Validate", 'Password should contain at least 8 characters with number, symbol, capital, and small letters');
-//       isValid = false;
-//   }
-
-//   if (salutation === '') {
-//       setValidationMessage("salutation-Validate", 'Please select a salutation');
-//       isValid = false;
-//   }
-
-//   if (username === '') {
-//       setValidationMessage("username-Validate", 'Enter a username');
-//       isValid = false;
-//   }
-
-//   if (qualification === '') {
-//       setValidationMessage("qualifications-Validate", 'Enter qualification');
-//       isValid = false;
-//   }
-
-//   if (address === '') {
-//       setValidationMessage("address-Validate", 'Enter address');
-//       isValid = false;
-//   }
-
-//   if (state === '') {
-//       setValidationMessage("state-Validate", 'Select a state');
-//       isValid = false;
-//   }
-
-//   if (country === '') {
-//       setValidationMessage("country-Validate", 'Select a country');
-//       isValid = false;
-//   }
-
-//   if (city === '') {
-//       setValidationMessage("city-Validate", 'Enter city');
-//       isValid = false;
-//   }
-
-//   if (pinZip === '') {
-//       setValidationMessage("pin-Validate", 'Enter Pin / Zip code');
-//       isValid = false;
-//   }
-
-//   return isValid;
-// };
-
-// const addFormValidation = () => {
-//   const firstNameVal = document.getElementById("first-name");
-//   const lastNameVal = document.getElementById("las-nme");
-//   const salutationVal = document.getElementById("salutation-name");
-//   const emailVal = document.getElementById("exampleInputEmail1");
-//   const phoneVal = document.getElementById("typePhone");
-//   const qualificationVal = document.getElementById("qual-nme");
-//   const addressVal = document.getElementById("address");
-//   const dobVal = document.getElementById("date");
-//   const cityVal = document.getElementById("cit-nme");
-//   const stateVal = document.getElementById("ste-nme");
-//   const countryVal = document.getElementById("coun-nme");
-//   const pinVal = document.getElementById("pin-zip");
-//   const usernameVal = document.getElementById("user");
-//   const passwordVal = document.getElementById("pass");
-//   const maleval = document.getElementById("maleCheckedit");
-//   const femaleval = document.getElementById("femaleradioedit");
-
-//   const setValidationMessage = (elementId, message) => {
-//       const element = document.getElementById(elementId);
-//       if (element) {
-//           element.textContent = message;
-//       }
-//   };
-
-//   salutationVal.addEventListener('input', () => {
-//       setValidationMessage('salutation-Validate', '');
-//       if (salutationVal.value === '') {
-//           setValidationMessage('salutation-Validate', 'Select a salutation');
-//       }
-//   });
-
-//   firstNameVal.addEventListener('input', () => {
-//       setValidationMessage('firstName-Val', '');
-//       if (!namePattern.test(firstNameVal.value)) {
-//           setValidationMessage('firstName-Val', 'Enter valid firstName');
-//       }
-//   });
-
-//   lastNameVal.addEventListener('input', () => {
-//       setValidationMessage('lastName-Validate', '');
-//       if (!namePattern.test(lastNameVal.value)) {
-//           setValidationMessage('lastName-Validate', 'Enter valid lastName');
-//       }
-//   });
-
-//   emailVal.addEventListener('input', () => {
-//       setValidationMessage('email-Val', '');
-//       if (!emailPattern.test(emailVal.value)) {
-//           setValidationMessage('email-Val', 'Enter a valid email id');
-//       }
-//   });
-
-//   phoneVal.addEventListener('input', () => {
-//       setValidationMessage('phone-Val', '');
-//       if (!phonePattern.test(phoneVal.value)) {
-//           setValidationMessage('phone-Val', 'Phone number should be 10 digits');
-//       }
-//   });
-
-//   qualificationVal.addEventListener('input', () => {
-//       setValidationMessage('qualifications-Validate', '');
-//       if (qualificationVal.value === '') {
-//           setValidationMessage('qualifications-Validate', 'Qualification is required');
-//       }
-//   });
-
-//   addressVal.addEventListener('input', () => {
-//       setValidationMessage('address-Validate', '');
-//       if (addressVal.value === '') {
-//           setValidationMessage('address-Validate', 'Address is required');
-//       }
-//   });
-
-//   dobVal.addEventListener('input', () => {
-//       setValidationMessage('dobValidate', '');
-//       if (dobVal.value === '') {
-//           setValidationMessage('dobValidate', 'DOB is required');
-//       }
-//   });
-
-//   cityVal.addEventListener('input', () => {
-//       setValidationMessage('city-Validate', '');
-//       if (cityVal.value === '') {
-//           setValidationMessage('city-Validate', 'City is required');
-//       }
-//   });
-
-//   stateVal.addEventListener('input', () => {
-//       setValidationMessage('state-Validate', '');
-//       if (stateVal.value === '') {
-//           setValidationMessage('state-Validate', 'Select a state');
-//       }
-//   });
-
-//   countryVal.addEventListener('input', () => {
-//       setValidationMessage('country-Validate', '');
-//       if (countryVal.value === '') {
-//           setValidationMessage('country-Validate', 'Select a country');
-//       }
-//   });
-
-//   pinVal.addEventListener('input', () => {
-//       setValidationMessage('pin-Validate', '');
-//       if (pinVal.value === '') {
-//           setValidationMessage('pin-Validate', 'Pin is required');
-//       }
-//   });
-
-//   usernameVal.addEventListener('input', () => {
-//       setValidationMessage('username-Validate', '');
-//       if (usernameVal.value === '') {
-//           setValidationMessage('username-Validate', 'Username is required');
-//       }
-//   });
-
-//   passwordVal.addEventListener('input', () => {
-//       setValidationMessage('password-Validate', '');
-//       if (!passwordPattern.test(passwordVal.value)) {
-//           setValidationMessage('password-Validate', 'Password should contain at least 8 characters with number, symbol, capital, and small letters');
-//       }
-//   });
-
-//   document.getElementById("add-employee").addEventListener("input", () => {
-//       if (maleval.checked || femaleval.checked) {
-//           setValidationMessage("genderValidate", '');
-//       }
-//   });
-
-//   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-//   const phonePattern = /^\d{10}$/;
-//   const namePattern = /^[a-zA-Z]+$/;
-//   const passwordPattern = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{8,}");
-
-//   const validateForm = () => {
-//       const salutation = salutationVal.value.trim();
-//       const firstName = firstNameVal.value.trim();
-//       const lastName = lastNameVal.value.trim();
-//       const email = emailVal.value.trim();
-//       const phone = phoneVal.value.trim();
-//       const username = usernameVal.value.trim();
-//       const password = passwordVal.value.trim();
-//       const qualification = qualificationVal.value.trim();
-//       const address = addressVal.value.trim();
-//       const country = countryVal.value.trim();
-//       const state = stateVal.value.trim();
-//       const city = cityVal.value.trim();
-//       const pinZip = pinVal.value.trim();
-//       const gender = document.querySelector('input[name="Gender"]:checked');
-//       const dobValue = dobVal.value.trim();
-//       const addDOBValidation = document.getElementById("dobValidate");
-//       const genderValidation = document.getElementById("genderValidate");
-
-//       let isValid = true;
-
-//       if (!gender) {
-//           setValidationMessage("genderValidate", 'Please select a gender');
-//           isValid = false;
-//       }
-
-//       if (dobValue === '') {
-//           setValidationMessage("dobValidate", 'Please select date of birth');
-//           isValid = false;
-//       }
-
-//       if (!phonePattern.test(phone)) {
-//           setValidationMessage("phone-Val", 'Phone number should be 10 digits');
-//           isValid = false;
-//       }
-
-//       if (!emailPattern.test(email)) {
-//           setValidationMessage("email-Val", 'Please enter a valid email id');
-//           isValid = false;
-//       }
-
-//       if (!namePattern.test(firstName)) {
-//           setValidationMessage("firstName-Val", 'Enter valid first name');
-//           isValid = false;
-//       }
-
-//       if (!namePattern.test(lastName)) {
-//           setValidationMessage("lastName-Validate", 'Enter valid last name');
-//           isValid = false;
-//       }
-
-//       if (!passwordPattern.test(password)) {
-//           setValidationMessage("password-Validate", 'Password should contain at least 8 characters with number, symbol, capital, and small letters');
-//           isValid = false;
-//       }
-
-//       if (salutation === '') {
-//           setValidationMessage("salutation-Validate", 'Please select a salutation');
-//           isValid = false;
-//       }
-
-//       if (username === '') {
-//           setValidationMessage("username-Validate", 'Enter a username');
-//           isValid = false;
-//       }
-
-//       if (qualification === '') {
-//           setValidationMessage("qualifications-Validate", 'Enter qualification');
-//           isValid = false;
-//       }
-
-//       if (address === '') {
-//           setValidationMessage("address-Validate", 'Enter address');
-//           isValid = false;
-//       }
-
-//       if (state === '') {
-//           setValidationMessage("state-Validate", 'Select a state');
-//           isValid = false;
-//       }
-
-//       if (country === '') {
-//           setValidationMessage("country-Validate", 'Select a country');
-//           isValid = false;
-//       }
-
-//       if (city === '') {
-//           setValidationMessage("city-Validate", 'Enter city');
-//           isValid = false;
-//       }
-
-//       if (pinZip === '') {
-//           setValidationMessage("pin-Validate", 'Enter Pin / Zip code');
-//           isValid = false;
-//       }
-
-//       return isValid;
-//   };
-
-//   return validateForm();
-// };
-
+// --------------------------------------------------------validation add-form----------------------------------------------------------------------------------------------------------------------------------------
 const addFormValidation = () => {
   const firstNameVal = document.getElementById("first-name");
   const lastNameVal = document.getElementById("las-nme");
@@ -1141,7 +351,7 @@ const addFormValidation = () => {
 
   document.getElementById("add-employee").addEventListener("input", () => {
       if (maleval.checked || femaleval.checked) {
-          setValidationMessage("genderValidate", '');
+          document.getElementById('gendervalidate').innerText = ``
       }
   });
 
@@ -1239,7 +449,8 @@ const addFormValidation = () => {
 }
 
 
-//--------------------------------------------------------------Delete Employee popup----------------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------Delete Employee popup-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function delEmployeepop ()  {
   const del = document.getElementById('delemployee');
@@ -1258,7 +469,7 @@ function closedelpopup() {
   overlay.style.display = "none";
 }
 
-//------------------------------------------------------delete Employeee-----------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------delete Employeee--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
  function delEmployee(id) {
@@ -1295,7 +506,7 @@ console.log(allDatas)
 
 }
 
-//----------------------------------------------Edit employee popup--------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------edit employee popup---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function editemployeepop ()  {
   const edit = document.getElementById("editemployee");
@@ -1309,13 +520,18 @@ function closeeditpop() {
   const closeEmployeepop = document.getElementById("editemployee");
   const overlay = document.getElementById("overlay");
 
+
   // Close the popup and overlay
   closeEmployeepop.style.display = "none";
   overlay.style.display = "none";
+  
 }
 
-//-------------------------------------------------------------Editing upload image---------------------------------------------------------------------------------------------------------------
+
+  
+//-------------------------------------------------------------Editing upload image--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Image preview functionality
+
 let editpic = document.getElementById('editimage');
 let editInputFile = document.getElementById('input-editfile');
 
@@ -1323,104 +539,6 @@ editInputFile.onchange = function() {
     editpic.src = URL.createObjectURL(editInputFile.files[0]);
 };
 
-// Edit Employee function
-// async function editEmployee(id) {
-//     editemployeepop(); // Show the popup
-
-//     try {
-//         const response = await fetch(`http://localhost:3000/employees/${id}`);
-//         if (!response.ok) {
-//             throw new Error('Failed to fetch employee data for editing');
-//         }
-//         const allDatas = await response.json();
-//         console.log('allDatas', allDatas);
-
-//         // Populate the edit form fields with the fetched employee data
-//         document.getElementById('editimage').src = `http://localhost:3000/employees/${id}/avatar`;
-//         document.getElementById("saleditnme").value = allDatas.salutation;
-//         document.getElementById("firsteditnme").value = allDatas.firstName;
-//         document.getElementById("laseditnme").value = allDatas.lastName;
-//         document.getElementById("exampleInputEmail1sedit").value = allDatas.email;
-//         document.getElementById("typePhoneededit").value = allDatas.phone;
-//         document.getElementById("qualeditnme").value = allDatas.qualifications;
-//         document.getElementById("addressedit").value = allDatas.address;
-//         document.getElementById("citnmeedit").value = allDatas.city;
-//         document.getElementById("stenmeedit").value = allDatas.state;
-//         document.getElementById("counnmeedit").value = allDatas.country;
-//         document.getElementById("editdateedit").value = allDatas.dob.split("-").reverse().join("-");
-//         document.getElementById("pinzipedit").value = allDatas.pin;
-//         document.getElementById("maleCheckedit").checked = allDatas.gender === "male";
-//         document.getElementById("femaleradioedit").checked = allDatas.gender === "female";
-//         document.getElementById("useredit").value = allDatas.username;
-//         document.getElementById("passedit").value = allDatas.password;
-    
-//         // Add event listener to the submit button
-//         document.getElementById("submitEditBtn").addEventListener('click', async function(e) {
-//             e.preventDefault();
-
-//             // Gather updated data from the form
-//             const updatedUser = {
-//                 pin: document.getElementById("pinzipedit").value,
-//                 salutation: document.getElementById("saleditnme").value,
-//                 firstName: document.getElementById("firsteditnme").value,
-//                 lastName: document.getElementById("laseditnme").value,
-//                 email: document.getElementById("exampleInputEmail1sedit").value,
-//                 phone: document.getElementById("typePhoneededit").value,
-//                 qualifications: document.getElementById("qualeditnme").value,
-//                 address: document.getElementById("addressedit").value,
-//                 city: document.getElementById("citnmeedit").value,
-//                 state: document.getElementById("stenmeedit").value,
-//                 country: document.getElementById("counnmeedit").value,
-//                 dob: document.getElementById("editdateedit").value.split("-").reverse().join("-"),
-//                 gender: document.getElementById("maleCheckedit").checked ? "male" : "female",
-//                 username: document.getElementById("useredit").value,
-//                 password: document.getElementById("passedit").value
-//             };
-
-// try {
-//     const putResponse = await fetch(`http://localhost:3000/employees/${id}`, {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(updatedUser),
-//     });
-
-//     if (!putResponse.ok) {
-//         throw new Error('Failed to update employee data');
-//     }
-
-//     // Update avatar if a new file is selected
-//     if (editInputFile.files.length > 0) {
-//         const formData = new FormData();
-//         formData.append("avatar", editInputFile.files[0]);
-
-//         const avatarResponse = await fetch(`http://localhost:3000/employees/${id}/avatar`, {
-//             method: "POST",
-//             body: formData,
-//         });
-
-//         if (!avatarResponse.ok) {
-//             throw new Error('Failed to upload avatar for employee');
-//         }
-//     }
-
-//     // Ensure allDatas is an array
-//     if (!Array.isArray(allDatas)) {
-//         throw new TypeError('allDatas is not an array');
-//     }
-
-//     // Update the allDatas array with the updated employee data
-//     updatedUser.id = id;
-//     const userIndex = allDatas.findIndex(user => user.id === id);
-//     if (userIndex !== -1) {
-//         allDatas.splice(userIndex, 1, updatedUser);
-//     }
-
-//     addTableShow();
-// } catch (error) {
-//     console.error('Error updating employee:', error);
-// }
 async function editEmployee(id) {
     editemployeepop(); // Show the popup
 
@@ -1452,8 +570,13 @@ async function editEmployee(id) {
         document.getElementById("useredit").value = employeeData.username;
         document.getElementById("passedit").value = employeeData.password;
 
-        // Add event listener to the submit button
-        document.getElementById("submitEditBtn").addEventListener('click', async function(e) {
+        // Remove existing event listeners from the submit button
+        const submitEditBtn = document.getElementById("submitEditBtn");
+        const newSubmitEditBtn = submitEditBtn.cloneNode(true);
+        submitEditBtn.parentNode.replaceChild(newSubmitEditBtn, submitEditBtn);
+
+        // Add event listener to the new submit button  
+        newSubmitEditBtn.addEventListener('click', async function(e) {
             e.preventDefault();
 
             // Gather updated data from the form
@@ -1519,164 +642,27 @@ async function editEmployee(id) {
                 
             } catch (error) {
                 console.error('Error updating employee:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error updating employee data. Please try again.',
+                    icon: 'error',
+                });
             }
         });
     } catch (error) {
         console.error('Error fetching data for editing:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'Error fetching employee data. Please check your network connection and try again.',
+            icon: 'error',
+        });
     }
 }
 
-    
 
-// ---------------------------------------pagination----------------------------------------------------------------------------------------------------------------------------
-// function pagination(){
 
-//     let totalPages=Math.ceil(allDatas.length/employeesPerPage);
+// ---------------------------------------pagination-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//     paginationList.innerHTML='';
-  
-//     function createButton(text,isEnabled,clickHandler){
-//         const button=document.createElement('li')
-//         button.classList.add("page-item");
-//         button.innerHTML=`<a class="page-link">${text}</a>`
-//         if(isEnabled){
-//             button.addEventListener("click",clickHandler);
-//         }
-//         paginationList.appendChild(button);
-//     }
-// //   Always show first and pervious buttons
-// createButton("<<",currentpage>1,()=>{
-//     currentpage=1;
-//     addTableShow(currentpage);
-//     pagination();
-// })
-// createButton("<",currentpage >1,()=>{
-//     currentpage--;
-//     addTableShow(currentpage);
-//     pagination();
-// });
-// // calculated start and end pages for the current pagination view
-// let startPage=Math.max(currentpage-1,1);
-// let endPage=Math.min(currentpage+1,totalPages);
-// if(currentpage === 1){
-//     endPage=Math.min(currentpage+2,totalPages);
-// }
-// else if(currentpage === totalPages){
-//     startPage= Math.max(currentpage -2,1);
-// } 
-
-// // create page number buttons
-
-// for(let i=startPage;i <= endPage;i++){
-//     const pageButton =document.createElement("li")
-//     pageButton.classList.add("page-item");
-//     pageButton.innerHTML=`<a class=page-link">${i}</a>`;
-//     if(i === currentpage){
-//         pageButton.classList.add("active");
-//     }
-//     pageButton.addEventListener("click",()=> {
-//         currentpage= i;
-//         addTableShow(currentpage);
-//         pagination();
-//     });
-//     paginationList.appendChild(pageButton);
-// }
-// // Always show next and last buttons
-// createButton(">",currentpage < totalPages, () => {
-//     currentpage=totalPages;
-//     addTableShow(currentpage);
-//     pagination();
-// })
-// }
-
-// function pagination() {
-
-//     let totalPages = Math.ceil(userDatas.length / employeesPerPage);
-//     paginationList.innerHTML = '';
-  
-//     // Helper function to create and append buttons
-//     function createButton(text, isEnabled, clickHandler) {
-//       const button = document.createElement("li");
-//       button.classList.add("page-item");
-//       button.innerHTML = <a class="page-link">${text}</a>;
-//       if (isEnabled) {
-//         button.addEventListener("click", clickHandler);
-//       }
-//       paginationList.appendChild(button);
-//     }
-  
-//     // Always show first and previous buttons
-//     createButton("<<", currentPage > 1, () => {
-//     currentPage = 1;
-//       addTableShow(currentPage);
-//       pagination();
-//     });
-  
-//     createButton("<", currentPage > 1, () => {
-//       currentPage--;
-//       addTableShow(currentPage);
-//       pagination();
-//     });
-  
-//     // Calculate start and end pages for the current pagination view
-//     let startPage = Math.max(currentPage - 1, 1);
-//     let endPage = Math.min(currentPage + 1, totalPages);
-  
-//     if (currentPage === 1) {
-//       endPage = Math.min(currentPage + 2, totalPages);
-//     } else if (currentPage === totalPages) {
-//       startPage = Math.max(currentPage - 2, 1);
-//     }
-  
-//     // Create page number buttons
-//     for (let i = startPage; i <= endPage; i++) {
-//       const pageButton = document.createElement("li");
-//       pageButton.classList.add("page-item");
-//       pageButton.innerHTML = <a class="page-link">${i}</a>;
-//       if (i === currentPage) {
-//         pageButton.classList.add("active");
-//       }
-//       pageButton.addEventListener("click", () => {
-//         currentPage = i;
-//         addTableShow(currentPage);
-//         pagination();
-//       });
-//       paginationList.appendChild(pageButton);
-//     }
-  
-//     // Always show next and last buttons
-//     createButton(">", currentPage < totalPages, () => {
-//       currentPage++;
-//       addTableShow(currentPage);
-//       pagination();
-//     });
-  
-//     createButton(">>", currentPage < totalPages, () => {
-//       currentPage = totalPages;
-//       addTableShow(currentPage);
-//       pagination();
-//     });
-//   }
-// // --------------------------------------------search----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-// const searchInput = document.getElementById('srch');
-// searchInput.addEventListener('input', (event) => {
-//     const searchValue = event.target.value.trim().toLowerCase();
-
-//     allDatas = empDatas;
-//     if (searchValue !== '') {
-//         allDatas = allDatas.filter(employee => {
-//             return (
-//                 employee.firstName.toLowerCase().includes(searchValue) ||
-//                 employee.email.toLowerCase().includes(searchValue) ||
-//                 employee.phone.toLowerCase().includes(searchValue)
-//             );
-//         });
-//     }
-//     console.log(allDatas);
-//     addTableShow(currentpage);
-//     pagination();
-// });
 
 // Pagination function
 function pagination() {
@@ -1724,6 +710,7 @@ function pagination() {
         pageButton.innerHTML = `<a class="page-link">${i}</a>`;
         if (i === currentpage) {
             pageButton.classList.add("active");
+    
         }
         pageButton.addEventListener("click", () => {
             currentpage = i;
@@ -1752,9 +739,9 @@ const searchInput = document.getElementById('srch');
 searchInput.addEventListener('input', (event) => {
     const searchValue = event.target.value.trim().toLowerCase();
 
-    userDatas = empDatas;
+    allDatas = empDatas;
     if (searchValue !== '') {
-        userDatas = userDatas.filter(employee => {
+        allDatas = allDatas.filter(employee => {
             return (
                 employee.firstName.toLowerCase().includes(searchValue) ||
                 employee.email.toLowerCase().includes(searchValue) ||
@@ -1762,7 +749,7 @@ searchInput.addEventListener('input', (event) => {
             );
         });
     }
-    console.log(userDatas);
+    console.log(allDatas);
     addTableShow(currentpage);
     pagination();
 });

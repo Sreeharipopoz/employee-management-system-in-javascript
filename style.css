@@ -215,7 +215,6 @@
   border-radius: 8px;
   border: 1px solid #DDDDDD;
   text-align: center;
-  font-family: Open Sans;
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
@@ -223,7 +222,6 @@
   }
   
   .header-table p {
-  font-family: Open Sans;
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
@@ -288,7 +286,17 @@
   .pagination{
   justify-content: end;
   margin-right: 24px;
+  cursor: pointer;
   }
+
+
+ .page-item{
+z-index: 0;
+ }
+ 
+ .co{
+  overflow: hidden ;
+ }
   
   .right-btm{
   display: flex;

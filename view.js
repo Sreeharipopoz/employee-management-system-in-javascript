@@ -16,6 +16,7 @@ const viewEmployee = async (employeeId) => {
     }
 
     viewData = await response.json();
+    data = viewData;
     console.log(viewData);
     viewEmp(viewData); // Pass viewData to viewEmp
 
@@ -73,7 +74,7 @@ function closeeditpop() {
   overlay.style.display = "none";
 }
 
-//-------------------------------------------------------------Editing upload image------------------------------------------------------------------------------
+//-------------------------------------------------------------Editing upload image----------------------------------------------------------------------------------------------------------
 
 let editpic = document.getElementById('editimage');
 let editInputFile = document.getElementById('input-editfile');
@@ -82,7 +83,7 @@ editInputFile.onchange = function (){
   editpic.src = URL.createObjectURL(editInputFile.files[0])
 }
 
-// -------------------------------------------------------------Edit employee-----------------------------------------------------------------------------
+// ------------------------------------------------------------------------Edit employee--------------------------------------------------------------------------------------------------
 
 
 
@@ -193,17 +194,23 @@ try {
       icon: "success"
     });
 
-    // window.location.href = "index.html";
+    viewEmployee(id);
 
    
 } catch (error) {
     console.error('Error updating employee:', error);
+
+    Swal.fire({
+      title: 'Error',
+      text: 'Error updating employee data. Please try again.',
+      icon: 'error',
+  });
 }
 
 }
 
 
-// ---------------------------------------------Validation viewEdit Form------------------------------------------------------------------
+// ----------------------------------------------------------------------------------Validation viewEdit Form------------------------------------------------------------------
 
 
 const editViewFormValidation = () =>{
